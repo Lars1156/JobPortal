@@ -2,6 +2,8 @@ const Job = require('../model/job');
 const User = require('../model/user');
 
 exports.createJob =  async (req,res) =>{
+    console.log("Autherise User : ", req.body);
+    
   try {
        const { title, description, requirements, location, salary, employmentType, company } = req.body;
        console.log("**Job deatails" , req.body );
@@ -9,7 +11,7 @@ exports.createJob =  async (req,res) =>{
        if(req.user.role !== 'eamployer'){
          return res.status(403).json({msg:"Only employer can created the Job Portal"});
        }
-       const newJob = await Job.create({
+       const newJob = new Job({
         title,
         description,
         requirements,
@@ -19,6 +21,7 @@ exports.createJob =  async (req,res) =>{
         company,
         postedBy: req.user.userId  // Assumes req.user contains the authenticated user's ID
     });
+        await newJob.save();
        console.log("**New Job", newJob);
        
        return res.status(200).json({ message: 'Job created successfully', job: newJob });

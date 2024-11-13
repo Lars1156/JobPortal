@@ -112,7 +112,7 @@ async function upadteUserProfile(req,res){
         res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
-exports.applyForJob = async (req, res) => {
+async function applyForJob(req,res) {
     try {
       const userId = req.user.userId;
       const { jobId } = req.body;
@@ -145,5 +145,5 @@ module.exports = {
     getAllUsers,
     getUserProfile,
     upadteUserProfile,
-    
+    applyForJob
 }

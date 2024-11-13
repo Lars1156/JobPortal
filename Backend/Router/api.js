@@ -8,7 +8,8 @@ const authMiddleWare = require('../middleware/auth');
 router.post('/registerUser' , userController.registerUser);
 router.post('./loginUser' , userController.loginUser);
 router.get('/getAllUser' , userController.getAllUsers)
-
+router.put('/updateProfile' ,authMiddleWare, userController.upadteUserProfile);
+router.post('/apply' ,authMiddleWare, userController.applyForJob);
 // Job Api
 router.post('/jobs' , authMiddleWare ,jobController.createJob );
 router.get('/jobs' , jobController.getAllJobs);

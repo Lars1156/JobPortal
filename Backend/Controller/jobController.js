@@ -4,6 +4,8 @@ const User = require('../model/user');
 exports.createJob =  async (req,res) =>{
   try {
        const { title, description, requirements, location, salary, employmentType, company } = req.body;
+       console.log("**Job deatails" , req.body );
+       
        if(req.user.role !== 'eamployer'){
          return res.status(403).json({msg:"Only employer can created the Job Portal"});
        }

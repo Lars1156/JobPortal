@@ -1,4 +1,7 @@
 const User = require('../model/user');
+const bcrypt = require('bcrypt');
+const jwt  = require('jsonwebtoken');
+const JWT_SECRET = "Kishan@1156";
 const userServices = require('../Services/userServices');
 
 async function registerUser(req,res){
@@ -38,28 +41,36 @@ async function registerUser(req,res){
     }
 };
 
-async function loginUser(req, res) {
+async function loginUser(req,res) {
     try {
-        const {email , password } = req.body;
-        console.log("** User Login Datails " , req.body);
-        const checkData = await User.findOne({email});
-        if (checkData) {
-            const validPassword = await bcrypt.compare(password, checkData.password);
-            if (!validPassword) {
-                return res.status(401).json({ msg: "Invalid password" });
-            }
-        } else {
-            return res.status(401).json({ msg: "User does not exist" });
-        }
-        // Grenrate the WebTolken 
-        const token = setUser(checkData);
-        return res.status(200).json({ msg: "Successfully Logged In", data: checkData, token: token });
+      const { email, password } = req.body;
+      console.log("**User Deatails" , req.body);
+      
+      // Find the user by email
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(401).json({ message: 'Invalid email or password' });
+      }
+  
+      // Check if the provided password matches the stored password
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(401).json({ message: 'Invalid email or password' });
+      }
+  
+      // Generate a JWT token
+      const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
+  
+      res.status(200).json({
+        message: 'Login successful',
+        token,
+        user: { id: user._id, username: user.username, role: user.role }
+      });
     } catch (error) {
-        console.error('Error logging in user:', error);
-        return res.status(500).json({ msg: "Server error, login failed" }); 
+      res.status(500).json({ message: 'Server error', error: error.message });
     }
-    
-};
+  };
+  
 async function getAllUsers(req, res) {
     try {
         const users = await User.find(); // Retrieves all users from the database
@@ -76,7 +87,7 @@ async function getUserProfile(req,res){
     try {
         const userId = req.user.userId; // Extracted from JWT middleware
          // Find the user by ID, exclude the password field
-    const user = await User.findById(userId).select('-password');
+        const user = await User.findById(userId).select('-password');
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }

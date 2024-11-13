@@ -71,10 +71,79 @@ async function getAllUsers(req, res) {
         console.error('Error fetching users:', error);
         return res.status(500).json({ msg: "Server error, could not fetch users" });
     }
-}
+};
+async function getUserProfile(req,res){
+    try {
+        const userId = req.user.userId; // Extracted from JWT middleware
+         // Find the user by ID, exclude the password field
+    const user = await User.findById(userId).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json(user);
+    } catch (error) {
+        return res.status(500).json({ msg: "Server error, could not fetch users" });
+    }
+};
+
+async function upadteUserProfile(req,res){
+    try {
+        const userId = req.user.userId 
+        const { fullName, phone, experience, skills } = req.body;
+           // Update the user profile fields
+          const updatedUser = await User.findByIdAndUpdate(
+            userId,
+          {
+          'profile.fullName': fullName,
+          'profile.phone': phone,
+          'profile.experience': experience,
+          'profile.skills': skills
+          },
+            { new: true, runValidators: true }
+          ).select('-password');
+  
+         if (!updatedUser) {
+           return res.status(404).json({ message: 'User not found' });
+         }
+  
+           res.status(200).json({ message: 'Profile updated successfully', user: updatedUser });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+exports.applyForJob = async (req, res) => {
+    try {
+      const userId = req.user.userId;
+      const { jobId } = req.body;
+  
+      // Find the user
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      // Check if the user has already applied for this job
+      if (user.appliedJobs.some(job => job.jobId.toString() === jobId)) {
+        return res.status(400).json({ message: 'You have already applied for this job' });
+      }
+  
+      // Add job to appliedJobs
+      user.appliedJobs.push({ jobId, appliedAt: new Date() });
+      await user.save();
+  
+      res.status(200).json({ message: 'Application submitted successfully' });
+    } catch (error) {
+      res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  };
+
 
 module.exports = {
     registerUser , 
     loginUser, 
-    getAllUsers
+    getAllUsers,
+    getUserProfile,
+    upadteUserProfile,
+    
 }

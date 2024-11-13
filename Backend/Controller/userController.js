@@ -2,24 +2,15 @@ const User = require('../model/user');
 const bcrypt = require('bcrypt');
 const jwt  = require('jsonwebtoken');
 const JWT_SECRET = "Kishan@1156";
-const userServices = require('../Services/userServices');
 
 async function registerUser(req,res){
     try {
-        const {userName , email , password ,role ,profile ,company  } = req.body;
+        const {userName , email , password ,role} = req.body;
         console.log("User Deatails ", req.body);
         if(!userName|| !email|| !password || !role){
             return res.status(400).json({ msg: "Please enter all user details" });
         }
-        if (!profile.fullName || !profile.phone) {
-            return res.status(400).json({ message: 'Full name and phone are required.' });
-        }
-          if (role === 'employer' && !company?.name) {
-            return res.status(400).json({ message: 'Company name is required for employers.' });
-          }
-      
-
-        const existingEmail = await User.findOne({email});
+         const existingEmail = await User.findOne({email});
         const existingUserName = await User.findOne({userName});
         if (existingEmail) {
             return res.status(400).json({ msg: "User with this email already exists" });
@@ -31,8 +22,7 @@ async function registerUser(req,res){
             userName: userName,
             email: email,
             password: password,
-            profile:profile,
-            company:company
+            role : role
         };
         console.log('User details', user);
         const addData = new User(user);
@@ -89,52 +79,8 @@ async function getAllUsers(req, res) {
         return res.status(500).json({ msg: "Server error, could not fetch users" });
     }
 };
-async function getUserProfile(req,res){
-    try {
-        const userId = req.user.userId; // Extracted from JWT middleware
-         // Find the user by ID, exclude the password field
-        const user = await User.findById(userId).select('-password');
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    res.status(200).json(user);
-    } catch (error) {
-        return res.status(500).json({ msg: "Server error, could not fetch users" });
-    }
-};
-
-async function applyForJob(req,res) {
-    try {
-      const userId = req.user.userId;
-      const { jobId } = req.body;
-  
-      // Find the user
-      const user = await User.findById(userId);
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-  
-      // Check if the user has already applied for this job
-      if (user.appliedJobs.some(job => job.jobId.toString() === jobId)) {
-        return res.status(400).json({ message: 'You have already applied for this job' });
-      }
-  
-      // Add job to appliedJobs
-      user.appliedJobs.push({ jobId, appliedAt: new Date() });
-      await user.save();
-  
-      res.status(200).json({ message: 'Application submitted successfully' });
-    } catch (error) {
-      res.status(500).json({ message: 'Server error', error: error.message });
-    }
-  };
-
-
 module.exports = {
     registerUser , 
     loginUser, 
-    getAllUsers,
-    getUserProfile,
-    applyForJob
+    getAllUsers
 }

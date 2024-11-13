@@ -23,55 +23,6 @@ const userSchema = new mongoose.Schema({
     enum: ['job_seeker', 'employer',],
     default: 'employer'
   },
-  profile: {
-    fullName: {
-      type: String,
-      required: function() { return this.role === 'job_seeker'; }
-    },
-    phone: {
-      type: String,
-      required: function() { return this.role === 'job_seeker'; }
-    },
-    resume: {
-      fileUrl: String, // URL to the stored resume file
-      dateUploaded: Date
-    },
-    experience: {
-      type: Number,
-      min: 0
-    },
-    skills: [String]
-  },
-  company: {
-    name: {
-      type: String,
-      required: function() { return this.role === 'employer'; }
-    },
-    location: String,
-    industry: String,
-    website: String
-  },
-  appliedJobs: [
-    {
-      jobId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Job'
-      },
-      applicationStatus: {
-        type: String,
-        enum: ['Pending', 'Reviewed', 'Interview Scheduled', 'Accepted', 'Rejected'],
-        default: 'Pending'
-      },
-      appliedAt: {
-        type: Date,
-        default: Date.now
-      }
-    }
-  ],
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
 });
 
 // Middleware to hash password before saving the user document

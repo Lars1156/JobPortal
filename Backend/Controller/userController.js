@@ -3,10 +3,13 @@ const userServices = require('../Services/userServices');
 
 async function registerUser(req,res){
     try {
-        const {userName , email , password , role} = req.body;
+        const {userName , email , password ,role ,profile } = req.body;
         console.log("User Deatails ", req.body);
         if(!userName|| !email|| !password || !role){
             return res.status(400).json({ msg: "Please enter all user details" });
+        }
+        if (!profile.fullName || !profile.phone) {
+            return res.status(400).json({ message: 'Full name and phone are required.' });
         }
         const existingEmail = await User.findOne({email});
         const existingUserName = await User.findOne({userName});
@@ -19,7 +22,8 @@ async function registerUser(req,res){
          const user = {
             userName: userName,
             email: email,
-            password: password
+            password: password,
+            profile:profile
         };
         console.log('User details', user);
         const addData = new User(user);

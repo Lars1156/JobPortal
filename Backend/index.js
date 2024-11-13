@@ -4,7 +4,7 @@ const {connection} = require('./connection')
 
 const app = express();
 
-connection('mongodb://localhost:27017/KickBoard').then(()=>{
+connection('mongodb://localhost:27017/JobPortal').then(()=>{
     console.log("Connection Sucessfully Database");
     
 }).catch((error)=>{

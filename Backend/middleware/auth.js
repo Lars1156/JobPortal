@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-
+const secret ="Kishan@1156";
 const authMiddleware = (req, res, next) => {
   const token = req.header('Authorization')?.split(' ')[1];
 
@@ -8,7 +8,7 @@ const authMiddleware = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
+    const decoded = jwt.verify(token, secret);
     req.user = decoded; // Contains userId and role
     next();
   } catch (error) {

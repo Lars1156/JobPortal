@@ -46,26 +46,6 @@ const jobSchema = new mongoose.Schema({
         ref: 'User', // Reference to the User model (employer)
         required: true
       },
-      applications: [
-        {
-          applicantId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User' // Reference to the User model (job seeker)
-          },
-          resumeUrl: {
-            type: String // URL to the applicant's resume
-          },
-          status: {
-            type: String,
-            enum: ['Pending', 'Reviewed', 'Interview Scheduled', 'Accepted', 'Rejected'],
-            default: 'Pending'
-          },
-          appliedAt: {
-            type: Date,
-            default: Date.now
-          }
-        }
-      ],
       postedAt: {
         type: Date,
         default: Date.now

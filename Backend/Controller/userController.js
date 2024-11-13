@@ -40,7 +40,7 @@ async function registerUser(req,res){
 
 async function loginUser(req, res) {
     try {
-        const {userName , password } = req.body;
+        const {email , password } = req.body;
         console.log("** User Login Datails " , req.body);
         const checkData = await User.findOne({email});
         if (checkData) {
@@ -87,31 +87,6 @@ async function getUserProfile(req,res){
     }
 };
 
-async function upadteUserProfile(req,res){
-    try {
-        const userId = req.user.userId 
-        const { fullName, phone, experience, skills } = req.body;
-           // Update the user profile fields
-          const updatedUser = await User.findByIdAndUpdate(
-            userId,
-          {
-          'profile.fullName': fullName,
-          'profile.phone': phone,
-          'profile.experience': experience,
-          'profile.skills': skills
-          },
-            { new: true, runValidators: true }
-          ).select('-password');
-  
-         if (!updatedUser) {
-           return res.status(404).json({ message: 'User not found' });
-         }
-  
-           res.status(200).json({ message: 'Profile updated successfully', user: updatedUser });
-    } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
-    }
-};
 async function applyForJob(req,res) {
     try {
       const userId = req.user.userId;

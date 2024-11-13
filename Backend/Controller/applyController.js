@@ -16,10 +16,10 @@ exports.applyForJob = async(req,res)=>{
             resumeLink,
             coverLetter,
         });
-        await application.save();
+        await appliction.save();
         res.status(201).json({
             message: 'Application submitted successfully',
-            application,
+            appliction,
           });    
     } catch (error) {
         console.error(error);
@@ -31,37 +31,6 @@ exports.getAllJobs = async (req, res) => {
     try {
       const jobs = await Job.find(); // Fetch all jobs
       res.status(200).json(jobs); // Return the jobs as JSON
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Server error', error: error.message });
-    }
-  };
-  // Update job details
-exports.updateJob = async (req, res) => {
-    const { jobId } = req.params; // Extract jobId from URL params
-    const { title, description, companyName, location, salary, jobType, skillsRequired } = req.body;
-  
-    try {
-      // Find the job by its jobId and update it
-      const job = await Job.findByIdAndUpdate(
-        jobId,
-        {
-          title,
-          description,
-          companyName,
-          location,
-          salary,
-          jobType,
-          skillsRequired,
-        },
-        { new: true } // Return the updated job
-      );
-  
-      if (!job) {
-        return res.status(404).json({ message: 'Job not found' });
-      }
-  
-      res.status(200).json({ message: 'Job updated successfully', job });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Server error', error: error.message });

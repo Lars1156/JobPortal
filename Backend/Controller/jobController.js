@@ -29,15 +29,21 @@ exports.createJob =  async (req,res) =>{
         res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
-exports.getAllJobs  = async(req,res) =>{
-    try {
-        const jobs = await Job.find().populate('postedBy', 'username email');
-        res.status(200).json(jobs);
-      } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
-      }
-};
+exports.getAllJobs = async (req, res) => {
+  try {
+    // Fetch all jobs from the Job collection
+    const jobs = await Job.find();
 
+    // Return the jobs in the response
+    res.status(200).json({
+      message: 'Jobs fetched successfully',
+      jobs: jobs
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
 exports.getJobById = async(req,res)=>{
     try {
         const { jobId } = req.params;
@@ -53,24 +59,29 @@ exports.getJobById = async(req,res)=>{
 };
 
 // Upadte the Jobs On the Poratal
-exports.updateJob = async(req,res)=>{
-    try {
-        const { jobId } = req.params;
-        const updates = req.body;
-         // Find the job and check if the current user is the owner
-          const job = await Job.findById(jobId);
-          if(!job){
-            return res.status(404).json({ message: 'Job not found' });
-          }
-          if (job.postedBy.toString() !== req.user.userId) {
-            return res.status(403).json({ message: 'You are not authorized to update this job' });
-          }
-          Object.assign(job, updates);
-          await job.save();
-          return res.status(201).json({msg:"Job will be Upadate Successsfully On the Portal"});      
-    } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+// Update a job by its ID
+exports.updateJob = async (req, res) => {
+  const jobId = req.params.id; 
+  const updatedData = req.body; 
+
+  try {
+    // Find the job by its ID and update it
+    const job = await Job.findByIdAndUpdate(jobId, updatedData, { new: true });
+
+    // Check if the job was found and updated
+    if (!job) {
+      return res.status(404).json({ message: 'Job not found' });
     }
+
+    // Return the updated job data
+    res.status(200).json({
+      message: 'Job updated successfully',
+      job: job
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
 };
 
 exports.deleteJob = async(req,res)=>{

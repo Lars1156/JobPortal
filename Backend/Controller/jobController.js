@@ -9,18 +9,18 @@ exports.createJob =  async (req,res) =>{
        if(req.user.role !== 'eamployer'){
          return res.status(403).json({msg:"Only employer can created the Job Portal"});
        }
-       const newJob = new Job({
-          title,
-          description,
-          requirements,
-          location,
-          salary,
-          employmentType,
-          company,
-          postedBy: req.user.userId 
-       });
-       //    Save the New job hasBeen Created
-       await newJob.save();
+       const newJob = await Job.create({
+        title,
+        description,
+        requirements,
+        location,
+        salary,
+        employmentType,
+        company,
+        postedBy: req.user.userId  // Assumes req.user contains the authenticated user's ID
+    });
+       console.log("**New Job", newJob);
+       
        return res.status(200).json({ message: 'Job created successfully', job: newJob });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });

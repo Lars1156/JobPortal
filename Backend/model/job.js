@@ -5,52 +5,48 @@ const jobSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true
-      },
-      description: {
+    },
+    description: {
         type: String,
-        required: true
-      },
-      requirements: {
-        type: [String], // List of job requirements
-        required: true
-      },
-      location: {
+        required: true,
+        trim: true
+    },
+    requirements: {
         type: String,
-        required: true
-      },
-      salary: {
-        type: Number, // Optional field for salary
-        required: false
-      },
-      employmentType: {
+        required: true,
+        trim: true
+    },
+    location: {
         type: String,
-        enum: ['Full-time', 'Part-time', 'Contract', 'Internship', 'Temporary'],
-        required: true
-      },
-      company: {
-        name: {
-          type: String,
-          required: true
-        },
-        industry: {
-          type: String,
-          required: false
-        },
-        website: {
-          type: String,
-          required: false
-        }
-      },
-      postedBy: {
+        required: true,
+        trim: true
+    },
+    salary: {
+        type: Number,
+        required: true,
+        min: 0  // Ensures salary is non-negative
+    },
+    employmentType: {
+        type: String,
+        required: true,
+        enum: ['Full-time', 'Part-time', 'Contract', 'Temporary', 'Internship']  // Restricts to these values
+    },
+    company: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    postedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', // Reference to the User model (employer)
+        ref: 'User',
         required: true
-      },
-      postedAt: {
+    },
+    createdAt: {
         type: Date,
         default: Date.now
-      }
+    }
 });
 
-const Job = mongoose.model('Job' , jobSchema);
-module.exports = Job
+const Job = mongoose.model('Job', jobSchema);
+
+module.exports = Job;

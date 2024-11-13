@@ -9,7 +9,7 @@ router.post('/registerUser' , userController.registerUser);
 router.post('/loginUser' , userController.loginUser);
 router.get('/getAllUser' , userController.getAllUsers);
 // Job Api
-router.post('/createjobs' , authMiddleWare ,jobController.createJob );
+router.post('/createjobs' , authMiddleWare,jobController.createJob );
 router.get('/jobs' , jobController.getAllJobs);
 router.get('/jobs/:jobId' , jobController.getJobById);
 router.put('/jobs/:jobId', authMiddleWare, jobController.updateJob);

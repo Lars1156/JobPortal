@@ -8,9 +8,9 @@ exports.createJob =  async (req,res) =>{
        const { title, description, requirements, location, salary, employmentType, company } = req.body;
        console.log("**Job deatails" , req.body );
        
-       if(req.user.role !== 'eamployer'){
-         return res.status(403).json({msg:"Only employer can created the Job Portal"});
-       }
+      //  if(req.user.role !== 'eamployer'){
+      //    return res.status(403).json({msg:"Only employer can created the Job Portal"});
+      //  }
        const newJob = new Job({
         title,
         description,
@@ -89,29 +89,4 @@ exports.deleteJob = async(req,res)=>{
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
     }
-};
-// Applying the Job On the Poratal 
-exports.applyForJob = async(req,res)=>{
-  try {
-    const { jobId } = req.params;
-    const { resumeUrl } = req.body;
-    const job = await Job.findById(jobId);
-    if(!job){
-        return res.status(404).json({ message: 'Job not found' });
-    }
-     if (job.applications.some(app => app.applicantId.toString() === req.user.userId)) {
-        return res.status(400).json({ message: 'You have already applied for this job' });
-      }
-      job.applications.push({
-        applicantId: req.user.userId,
-        resumeUrl,
-        appliedAt: new Date()
-      });
-  
-      await job.save();
-  
-      res.status(200).json({ message: 'Job application submitted successfully' });
-  } catch (error) {
-    
-  }
 };

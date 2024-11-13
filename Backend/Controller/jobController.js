@@ -94,9 +94,19 @@ exports.applyForJob = async(req,res)=>{
     if(!job){
         return res.status(404).json({ message: 'Job not found' });
     }
-    
-
+     if (job.applications.some(app => app.applicantId.toString() === req.user.userId)) {
+        return res.status(400).json({ message: 'You have already applied for this job' });
+      }
+      job.applications.push({
+        applicantId: req.user.userId,
+        resumeUrl,
+        appliedAt: new Date()
+      });
+  
+      await job.save();
+  
+      res.status(200).json({ message: 'Job application submitted successfully' });
   } catch (error) {
     
   }
-}
+};

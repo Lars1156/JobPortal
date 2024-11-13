@@ -6,7 +6,7 @@ const userServices = require('../Services/userServices');
 
 async function registerUser(req,res){
     try {
-        const {userName , email , password ,role ,profile } = req.body;
+        const {userName , email , password ,role ,profile ,company  } = req.body;
         console.log("User Deatails ", req.body);
         if(!userName|| !email|| !password || !role){
             return res.status(400).json({ msg: "Please enter all user details" });
@@ -14,6 +14,11 @@ async function registerUser(req,res){
         if (!profile.fullName || !profile.phone) {
             return res.status(400).json({ message: 'Full name and phone are required.' });
         }
+          if (role === 'employer' && !company?.name) {
+            return res.status(400).json({ message: 'Company name is required for employers.' });
+          }
+      
+
         const existingEmail = await User.findOne({email});
         const existingUserName = await User.findOne({userName});
         if (existingEmail) {
@@ -26,7 +31,8 @@ async function registerUser(req,res){
             userName: userName,
             email: email,
             password: password,
-            profile:profile
+            profile:profile,
+            company:company
         };
         console.log('User details', user);
         const addData = new User(user);

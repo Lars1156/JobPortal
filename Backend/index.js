@@ -1,7 +1,7 @@
 const express =  require('express');
 const bodyParser = require('body-parser');
 const {connection} = require('./connection')
-const userRouter = require('./Router/userRouter');
+const routerAPI = require('./Router/api')
 
 const app = express();
 
@@ -15,7 +15,7 @@ connection('mongodb://localhost:27017/JobPortal').then(()=>{
 
 app.use(express.json());
 app.use(bodyParser.json());
-app.use('/api/user' , userRouter);
+app.use('/api' , routerAPI);
 
 app.listen(4000 , ()=>{
     console.log("Server is Running On port 4000 ");

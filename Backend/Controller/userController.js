@@ -119,6 +119,5 @@ module.exports = {
     loginUser, 
     getAllUsers,
     getUserProfile,
-    upadteUserProfile,
     applyForJob
 }

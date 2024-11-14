@@ -3,6 +3,7 @@ import { Layout, Menu, Row, Col, Button } from 'antd';
 import { UserOutlined, AppstoreAddOutlined, FileSearchOutlined } from '@ant-design/icons';
 // import CreateJobPage from './CreateJobPage';  
 import CreateJob from '../components/CreateJob';
+import AppFooter from '../Pages/AppFooter'
 // import JobApplicationsPage from './JobApplicationsPage';
 
 const { Header, Content, Sider } = Layout;
@@ -15,10 +16,11 @@ const EmployerDashboard = () => {
   };
 
   return (
+    <>
     <Layout style={{ minHeight: '100vh' }}>
       {/* Header */}
       <Header className="header" style={{ padding: 0 }}>
-        <div style={{ color: 'white', fontSize: '20px', textAlign: 'center' }}>Employer Dashboard</div>
+        <div style={{ color: 'black', fontSize: '20px', textAlign: 'center' , background:'white' }}>Employer Dashboard</div>
       </Header>
 
       {/* Layout with horizontal Sider for navigation */}
@@ -55,6 +57,10 @@ const EmployerDashboard = () => {
         </Layout>
       </Layout>
     </Layout>
+    <div>
+         <AppFooter/>
+    </div>
+    </>
   );
 };
 

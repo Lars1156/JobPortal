@@ -19,7 +19,11 @@ const LoginPage = () => {
       localStorage.setItem('authToken', token);
 
       // Redirect to a dashboard or home page after successful login
-      navigate('/empdashBord');
+      if (user.role === 'job-seeker') {
+        navigate('/jobseeker');
+      } else if (user.role === 'employer') {
+        navigate('/empdashBord');
+      }
 
       console.log('Login successful:', user);
     } catch (err) {

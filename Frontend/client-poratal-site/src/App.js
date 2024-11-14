@@ -5,6 +5,7 @@ import HomePage from './Pages/HomePage';
 import ContactUs from './Pages/ContactUs';
 import RegisterPage from './Pages/RegisterPage';
 import EmployerDashboard from './Dashboard/EmployerDashboard';
+import JobSeekerDashboard from './Dashboard/JobSeekerDashboard';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
             <Route path='/register' element = {<RegisterPage/>}/>
            <Route path='/login' element={<LoginPage/>}/>
            <Route path='/empdashBord' element={<EmployerDashboard/>}/>
+           <Route path='/jobseeker' element ={<JobSeekerDashboard/>}/>
        </Routes>
     </div>
   );

@@ -6,6 +6,7 @@ import ContactUs from './Pages/ContactUs';
 import RegisterPage from './Pages/RegisterPage';
 import EmployerDashboard from './Dashboard/EmployerDashboard';
 import JobSeekerDashboard from './Dashboard/JobSeekerDashboard';
+import JobListPage from './Pages/JobListPage';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
            <Route path='/login' element={<LoginPage/>}/>
            <Route path='/empdashBord' element={<EmployerDashboard/>}/>
            <Route path='/jobseeker' element ={<JobSeekerDashboard/>}/>
+           <Route path='/jobs' element={<JobListPage/>}/>
        </Routes>
     </div>
   );

@@ -1,15 +1,47 @@
-import React from 'react';
-import { Form, Input, Button, Card, Typography } from 'antd';
+import React, { useState } from 'react';
+import { Form, Input, Button, Card, Typography, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import 'antd/dist/reset.css';
 
 const { Title } = Typography;
 
 const LoginPage = () => {
-  const onFinish = (values) => {
+  const [loading, setLoading] = useState(false); // To show loading state on the button
+  const history = useNavigate(); // For redirection after successful login
+
+  const onFinish = async (values) => {
     console.log('Received values:', values);
-    // Handle login logic here
+    setLoading(true); // Start loading
+
+    try {
+      // Construct payload as required by the backend
+      const payload = {
+        auth: {
+          username: values.username,
+          password: values.password,
+        }
+      };
+
+      // Make API call to login
+      const response = await axios.post('/api/login', payload);
+
+      // Handle the response if login is successful
+      console.log('Login successful:', response);
+      
+      // Store the token (if applicable)
+      localStorage.setItem('token', response.data.token); // Adjust as needed based on your API response
+      message.success('Login successful!'); // Show success message
+
+      // Redirect to dashboard or home page
+      history.push('/dashboard');
+    } catch (error) {
+      console.error('Login failed:', error);
+      message.error('Login failed. Please check your credentials.');
+    } finally {
+      setLoading(false); // Stop loading
+    }
   };
 
   return (
@@ -36,7 +68,7 @@ const LoginPage = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" block>
+            <Button type="primary" htmlType="submit" block loading={loading}>
               Log in
             </Button>
           </Form.Item>

@@ -25,10 +25,9 @@ const RegisterPage = () => {
       });
 
       // After registration success, navigate to the login page
-      navigate('/login');  // Redirect to the login page
+      navigate('/login'); 
 
     } catch (error) {
-      // Show an error notification if the registration fails
       notification.error({
         message: 'Registration Failed',
         description: error.response?.data?.message || 'Something went wrong',

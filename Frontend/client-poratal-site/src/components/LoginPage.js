@@ -31,8 +31,8 @@ const LoginPage = () => {
       console.log('Login successful:', response);
       
       // Store the token (if applicable)
-      localStorage.setItem('token', response.data.token); // Adjust as needed based on your API response
-      message.success('Login successful!'); // Show success message
+      localStorage.setItem('token', response.data.token); 
+      message.success('Login successful!');
 
       // Redirect to dashboard or home page
       history.push('/dashboard');
@@ -54,10 +54,10 @@ const LoginPage = () => {
           onFinish={onFinish}
         >
           <Form.Item
-            name="username"
-            rules={[{ required: true, message: 'Please input your username!' }]}
+            name="email"
+            rules={[{ required: true, message: 'Please input your email!' }]}
           >
-            <Input prefix={<UserOutlined />} placeholder="Username" />
+            <Input prefix={<UserOutlined />} placeholder="email" />
           </Form.Item>
 
           <Form.Item

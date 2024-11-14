@@ -1,46 +1,65 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Select, Typography, message } from 'antd';
-import axios from 'axios';
-
-const { Title } = Typography;
-const { Option } = Select;
+import { Form, Input, Button, notification } from 'antd';
+import { useNavigate } from 'react-router-dom'; 
+import axios from 'axios'; 
 
 const RegisterPage = () => {
-  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); 
 
   const onFinish = async (values) => {
+    setLoading(true);
     try {
-      // API call to register user
-      const response = await axios.post('/api/users/register', values);
-      message.success('Registration successful');
-      console.log(response.data);
+      // Send the registration data to the backend API
+      const response = await axios.post("http://localhost:4000/api/registerUser", {
+        username: values.username,
+        email: values.email,
+        password: values.password,
+        role: values.role,
+      });
+
+      // Show a success notification
+      notification.success({
+        message: 'Registration Successful',
+        description: response.data.message,
+      });
+
+      // After registration success, navigate to the login page
+      navigate('/login');  // Redirect to the login page
+
     } catch (error) {
-      message.error(error.response?.data?.message || 'Registration failed');
+      // Show an error notification if the registration fails
+      notification.error({
+        message: 'Registration Failed',
+        description: error.response?.data?.message || 'Something went wrong',
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: '50px auto', padding: '20px', border: '1px solid #f0f0f0', borderRadius: '8px' }}>
-      <Title level={2} style={{ textAlign: 'center' }}>Register</Title>
+    <div style={{ maxWidth: '600px', margin: '0 auto', padding: '50px' }}>
+      <h2 style={{ textAlign: 'center' }}>Register</h2>
       <Form
-        form={form}
         layout="vertical"
-        onFinish={onFinish}
+        onFinish={onFinish}  // Handle form submission
+        initialValues={{ remember: true }}
       >
         <Form.Item
           label="Username"
           name="username"
-          rules={[{ required: true, message: 'Please enter your username' }]}
+          rules={[{ required: true, message: 'Please enter your username!' }]}
         >
-          <Input placeholder="Enter your username" />
+          <Input placeholder="Enter username" />
         </Form.Item>
 
         <Form.Item
           label="Email"
           name="email"
           rules={[
-            { required: true, message: 'Please enter your email' },
-            { type: 'email', message: 'Please enter a valid email' }
+            { required: true, message: 'Please enter your email!' },
+            { type: 'email', message: 'The input is not valid E-mail!' }
           ]}
         >
           <Input placeholder="Enter your email" />
@@ -49,7 +68,8 @@ const RegisterPage = () => {
         <Form.Item
           label="Password"
           name="password"
-          rules={[{ required: true, message: 'Please enter your password' }]}
+          rules={[{ required: true, message: 'Please enter your password!' }]}
+          hasFeedback
         >
           <Input.Password placeholder="Enter your password" />
         </Form.Item>
@@ -57,16 +77,13 @@ const RegisterPage = () => {
         <Form.Item
           label="Role"
           name="role"
-          rules={[{ required: true, message: 'Please select your role' }]}
+          rules={[{ required: true, message: 'Please select your role!' }]}
         >
-          <Select placeholder="Select your role">
-            <Option value="employer">Employer</Option>
-            <Option value="job-seeker">Job Seeker</Option>
-          </Select>
+          <Input placeholder="Enter your role (e.g., job-seeker, employer)" />
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" block>
+          <Button type="primary" htmlType="submit" block loading={loading}>
             Register
           </Button>
         </Form.Item>

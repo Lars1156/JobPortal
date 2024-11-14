@@ -42,4 +42,21 @@
     color: red;
     margin-bottom: 10px;
   }
+  .register-link {
+    margin-top: 15px;
+    text-align: center;
+  }
+  
+  .register-link p {
+    font-size: 14px;
+  }
+  
+  .register-link a {
+    color: #1890ff; 
+    text-decoration: none;
+  }
+  
+  .register-link a:hover {
+    text-decoration: underline;
+  }
   

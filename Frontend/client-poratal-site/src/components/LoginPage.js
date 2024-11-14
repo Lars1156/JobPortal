@@ -19,13 +19,13 @@ const LoginPage = () => {
       // Construct payload as required by the backend
       const payload = {
         auth: {
-          username: values.username,
+          email: values.eamil,
           password: values.password,
         }
       };
 
       // Make API call to login
-      const response = await axios.post('/api/login', payload);
+      const response = await axios.post('http://localhost:4000/api/loginUser', payload);
 
       // Handle the response if login is successful
       console.log('Login successful:', response);

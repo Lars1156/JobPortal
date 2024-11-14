@@ -8,12 +8,12 @@ const { Header, Content, Footer } = Layout;
 
 const JobSeekerDashboard = () => {
   return (
-    <Layout>
+    <Layout style={{background :'white'}}>
       <Header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div className="logo" style={{ color: 'white', fontSize: '24px' }}>Job Seeker Dashboard</div>
+        <div className="logo" style={{ color: 'white', fontSize: '24px'  }}>Job Seeker Dashboard</div>
         <Menu theme="dark" mode="horizontal">
           <Menu.Item key="1" icon={<SearchOutlined />}>
-            <Link to="/search-jobs">Search Jobs</Link>
+            <Link to="/jobs">Search Jobs</Link>
           </Menu.Item>
           <Menu.Item key="2" icon={<FileDoneOutlined />}>
             <Link to="/applications">My Applications</Link>

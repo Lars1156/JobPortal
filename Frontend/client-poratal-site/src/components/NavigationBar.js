@@ -1,44 +1,39 @@
 import React from 'react';
-import { Layout, Menu } from 'antd';
+import { Menu, Button, Layout } from 'antd';
 import { Link } from 'react-router-dom';
-import {
-  HomeOutlined,
-  AppstoreOutlined,
-  UserOutlined,
-  LogoutOutlined,
-} from '@ant-design/icons';
 
 const { Header } = Layout;
 
-const NavigationBar = () => {
+const JobPortalNavBar = () => {
   return (
     <Layout>
-      <Header>
-        <div className="logo" style={{ color: '#fff', fontSize: '24px', float: 'left' }}>
-          JobPortal
+      <Header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#001529' }}>
+        <div style={{ color: '#fff', fontSize: '24px' }}>
+          <Link to="/" style={{ color: '#fff', textDecoration: 'none' }}>Job Portal</Link>
         </div>
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={['1']}
-          style={{ lineHeight: '64px' }}
-        >
-          <Menu.Item key="1" icon={<HomeOutlined />}>
+        <Menu mode="horizontal" theme="dark" style={{ flexGrow: 1 }}>
+          <Menu.Item key="home">
             <Link to="/">Home</Link>
           </Menu.Item>
-          <Menu.Item key="2" icon={<AppstoreOutlined />}>
+          <Menu.Item key="jobs">
             <Link to="/jobs">Jobs</Link>
           </Menu.Item>
-          <Menu.Item key="3" icon={<UserOutlined />}>
-            <Link to="/dashboard">Dashboard</Link>
+          <Menu.Item key="apply">
+            <Link to="/apply">Apply</Link>
           </Menu.Item>
-          <Menu.Item key="4" icon={<LogoutOutlined />}>
-            <Link to="/logout">Logout</Link>
+          <Menu.Item key="resume">
+            <Link to="/resume">Submit Resume</Link>
+          </Menu.Item>
+          <Menu.Item key="contact">
+            <Link to="/contact">Contact Us</Link>
           </Menu.Item>
         </Menu>
+        <Link to="/login">
+          <Button type="primary">Login</Button>
+        </Link>
       </Header>
     </Layout>
   );
 };
 
-export default NavigationBar;
+export default JobPortalNavBar;

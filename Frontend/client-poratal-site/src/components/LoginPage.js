@@ -8,8 +8,8 @@ import 'antd/dist/reset.css';
 const { Title } = Typography;
 
 const LoginPage = () => {
-  const [loading, setLoading] = useState(false); // To show loading state on the button
-  const history = useNavigate(); // For redirection after successful login
+  const [loading, setLoading] = useState(false); 
+  const history = useNavigate(); 
 
   const onFinish = async (values) => {
     console.log('Received values:', values);

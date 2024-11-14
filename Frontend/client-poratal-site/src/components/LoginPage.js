@@ -19,7 +19,7 @@ const LoginPage = () => {
       localStorage.setItem('authToken', token);
 
       // Redirect to a dashboard or home page after successful login
-      navigate('/dashboard');
+      navigate('/empdashBord');
 
       console.log('Login successful:', user);
     } catch (err) {

@@ -18,7 +18,7 @@ const LoginPage = () => {
       // Save the token to localStorage or a secure cookie
       localStorage.setItem('authToken', token);
 
-      // Redirect to a dashboard or home page after successful login
+      // Redirect to a dashboard after successful login
       if (user.role === 'job-seeker') {
         navigate('/jobseeker');
       } else if (user.role === 'employer') {

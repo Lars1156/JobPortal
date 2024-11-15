@@ -1,8 +1,12 @@
 const Job = require('../model/job')
 exports.createJobBy = async (req, res) => {
   try {
+
+    console.log(req.user)
+    
     const { title, description, location, salary, companyName } = req.body;
     console.log("**Job Details", req.body);
+
     if (!req.user || !req.user._id) {
       return res.status(401).json({ message: 'Unauthorized: User is not authenticated' });
     }

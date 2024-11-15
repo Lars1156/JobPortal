@@ -2,14 +2,23 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Form, Input, Button, message } from 'antd';
 
-const CreateJobPage = () => {
+const CreateJobPage = (jobData) => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:4000/api/createJob', values);
-      message.success('Job created successfully', response);
+         const token  = localStorage.getItem('token');
+         if (!token) {
+          console.error('No token found');
+          return;
+        }
+        const response  = await axios.post('http://localhost:4000/api/createjobs',jobData, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          },});    
+          console.log('Job created successfully:', response.data);
     } catch (error) {
       message.error('Failed to create job');
       console.error('Error creating job:', error);

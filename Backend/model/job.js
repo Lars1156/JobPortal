@@ -3,45 +3,34 @@ const mongoose = require('mongoose');
 const jobSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true,
-        trim: true
-    },
-    description: {
+        required: [true, 'Job title is required']
+      },
+      description: {
         type: String,
-        required: true,
-        trim: true
-    },
-    requirements: {
+        required: [true, 'Job description is required']
+      },
+      location: {
         type: String,
-        required: true,
-        trim: true
-    },
-    location: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    salary: {
+        required: [true, 'Job location is required']
+      },
+      salary: {
         type: Number,
-        required: true,
-        min: 0  // Ensures salary is non-negative
-    },
-    employmentType: {
+        required: [true, 'Salary is required']
+      },
+      companyName: {
         type: String,
-        required: true,
-        enum: ['Full-time', 'Part-time', 'Contract', 'Temporary', 'Internship']  // Restricts to these values
-    },
-    company: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    createdAt: {
+        required: [true, 'Company name is required']
+      },
+      createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+      },
+      createdAt: {
         type: Date,
         default: Date.now
-    }
+      }
 });
 
-const Job = mongoose.model('Job', jobSchema);
-
+const Job = mongoose.model('Job' , jobSchema);
 module.exports = Job;

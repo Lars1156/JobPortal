@@ -12,10 +12,10 @@ router.post('/registerUser' , userController.registerUser);
 router.post('/loginUser' , userController.loginUser);
 router.get('/getAllUser' , userController.getAllUsers);
 // Job Api
-router.post('/createjobs', authMiddleWare,jobController.createJob );
-router.get('/getAlljobs' , jobController.getAllJobs);
+router.post('/createjobs', authMiddleWare,jobController.createJobBy );
+// router.get('/getAlljobs' , jobController.getAllJobs);
 // router.get('/jobs/:jobId' , jobController.getJobById);
-router.put('/updatejobs/:jobId',  jobController.updateJob);
+// router.put('/updatejobs/:jobId',  jobController.updateJob);
 // router.delete('/jobs/:jobId', authMiddleWare, jobController.deleteJob);
 // router.post('/jobs/:jobId/apply', authMiddleWare, jobController.applyForJob);
 

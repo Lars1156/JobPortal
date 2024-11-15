@@ -18,7 +18,7 @@ exports.createJob = async (req, res) => {
       location,
       salary,
       description,
-      createdBy: req.user.id, // Assuming `req.user.id` contains the job seeker's ID
+      createdBy: req.user.id, 
     });
 
     await job.save();

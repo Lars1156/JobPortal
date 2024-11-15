@@ -7,6 +7,7 @@ import RegisterPage from './Pages/RegisterPage';
 import EmployerDashboard from './Dashboard/EmployerDashboard';
 import JobSeekerDashboard from './Dashboard/JobSeekerDashboard';
 import JobListPage from './Pages/JobListPage';
+import CreateJobPage from './components/CreateJob';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
            <Route path='/empdashBord' element={<EmployerDashboard/>}/>
            <Route path='/jobseeker' element ={<JobSeekerDashboard/>}/>
            <Route path='/jobs' element={<JobListPage/>}/>
+           <Route path='/createJob' element = {<CreateJobPage/>}/>
        </Routes>
     </div>
   );

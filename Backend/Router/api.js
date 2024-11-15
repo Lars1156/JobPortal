@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../Controller/userController');
 const jobController  = require('../Controller/jobController');
-// const { authenticateUser } = require('../middleware/auth');
-const authMiddleWare = require('../middleware/auth');
+const authenticate = require('../middleware/auth')
 const applyController = require('../Controller/applyController');
 
 
@@ -12,7 +11,7 @@ router.post('/registerUser' , userController.registerUser);
 router.post('/loginUser' , userController.loginUser);
 router.get('/getAllUser' , userController.getAllUsers);
 // Job Api
-router.post('/createjobs', authMiddleWare,jobController.createJobBy );
+router.post('/createjobs', authenticate,jobController.createJobBy );
 // router.get('/getAlljobs' , jobController.getAllJobs);
 // router.get('/jobs/:jobId' , jobController.getJobById);
 // router.put('/updatejobs/:jobId',  jobController.updateJob);

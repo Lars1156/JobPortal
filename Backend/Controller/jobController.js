@@ -10,7 +10,6 @@ exports.createJobBy = async (req, res) => {
       return res.status(400).json({ message: 'Please provide all job details' });
     }
 
-    // Check if the user has the 'employer' role
     if (req.user.role !== 'employer') {
       return res.status(403).json({ message: 'Unauthorized: Only employers can create jobs' });
     }

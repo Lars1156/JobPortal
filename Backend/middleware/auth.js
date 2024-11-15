@@ -1,26 +1,25 @@
 const jwt = require('jsonwebtoken');
-const User = require('../model/user');
-
-const authMiddleware = async (req, res, next) => {
-  const token = req.header('Authorization')?.split(' ')[1];
-  
-  if (!token) {
-    return res.status(401).json({ message: 'No token, authorization denied' });
-  }
-
+const User = require('../model/user'); 
+const SECRET = "Kishan@1156"
+const authenticate = async (req, res, next) => {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id);
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+    const token = req.headers.authorization?.split(" ")[1]; 
+    if (!token) {
+      return res.status(401).json({ message: 'No token provided' });
     }
 
-    req.user = user; // Attach user data to the request object
-    next();
+    const decoded = jwt.verify(token,SECRET );
+    const user = await User.findById(decoded.id); 
+
+    if (!user) {
+      return res.status(401).json({ message: 'User not found' });
+    }
+
+    req.user = user;
+    next(); 
   } catch (error) {
-    res.status(401).json({ message: 'Token is not valid' });
+    return res.status(401).json({ message: 'Unauthorized: Invalid or expired token' });
   }
 };
 
-module.exports = authMiddleware;
+module.exports = authenticate;
